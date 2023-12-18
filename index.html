@@ -5,24 +5,110 @@
   <title>Web Sprint 2 Challenge</title>
   <script id="challenge">
     // 👉 CHALLENGE 1
-    function profileActivation(profile, reason) {
+    let profile = {
+      active: true,
+      reason: undefined
+    };
+    let reason = "Not logged in for 30 days";
 
+    function profileActivation(profile, reason) {
+      if (profile.active === true) {
+        if (reason === undefined) {
+          return "confirm status manually"
+        }
+        profile.active = false;
+        profile.reason = reason;
+      } else if (profile.active === false) {
+        delete profile.reason;
+        profile.active = true;
+      }
+      return profile;
     }
+    let result = profileActivation(profile, reason)
+    // console.log(result)
+
+
 
     // 👉 CHALLENGE 2
+    grid = [["🟥", "🟦", "🟥"], ["🟦", "🟥", "🟥"], ["🟥", "🟦", "🟦"]];
+    x = "";
+    y = "";
+    result = ""
+
     function mineSweeper(grid, x, y) {
-
+      if (x < 1 || y < 1 || x > 3 || y > 3 || grid[x - 1] === undefined || grid[x - 1][y - 1] === undefined) {
+        result = "invalid coordinates"
+      }
+      else if (grid[y - 1][x - 1] === "🟥") {
+        result = "🟥 💀"
+      } 
+      else if (grid[y - 1][x - 1] === "🟦"){
+        result = "🟦 🥳"
+      }
+      return result
     }
-
+    result = mineSweeper(grid, x, y);
+    // console.log(result);
+    
     // 👉 CHALLENGE 3
-    function booleanize(obj) {
+    let obj = {keyZero: 0, keyOne: 1, keyNull: null, keyTwo: 2};
+    let deleteProp = null
 
+    function booleanize(obj) {
+      for (let property in obj) {
+      if (obj[property] === deleteProp) {
+        delete obj[property];
+        }
+      else if (property.length > 9) {
+        obj = "shorten all prop names to 9 chars or less"
+        }
+      else if (obj[property] === 0) {
+        obj[property] = false
+        }
+      else if (obj[property] === 1){
+        obj[property] = true
+        }
+      }
+      return obj
     }
+    result = booleanize(obj);
+    console.log(result);
+
 
     // 👉 CHALLENGE 4
-    function scrub(text, forbidden) {
+    let text = '';
+    let forbidden = [];
 
+    function scrub(text, forbidden) {
+      // console.log(text)
+      let words = text.split(' ');
+      for (let l = 0; l < words.length; l++) {
+        let word = words[l];
+        let scrubbed = " ";
+        let forbidden_words = false;
+        for (let o = 0; o < word.length; o++) {
+          scrubbed += 'x';
+        }
+        for (let p = 0; p < forbidden.length; p++) {
+          if (word.toLowerCase() === forbidden[p].toLowerCase()) {
+            scrubbed = '';
+            for (let e = 0; e < word.length; e++) {
+              scrubbed += 'x';
+            }
+            words[l] = scrubbed;
+            forbidden_words = true;
+            break;
+          }
+        }
+        if (!forbidden_words) {
+          words[l] = word;
+        }
+      }
+      return words.join(" ");
     }
+    result = scrub(text, forbidden);
+    console.log(result);
+    
 
     // 👉 CHALLENGE 5 (bonus, NOT graded)
     function normalizePhoneNumber(num) {
